@@ -1,0 +1,2 @@
+# base_gpt_craweler
+目标是做一个基于gpt解析的通用爬虫框架
