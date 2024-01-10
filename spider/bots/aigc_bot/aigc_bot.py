@@ -6,6 +6,15 @@ import requests
 
 from spider.bridge.context import Context, ContextType
 from spider.bridge.reply import Reply, ReplyType
+from spider.setting import (
+    AIGC_API_KEY,
+    AIGC_MODEL,
+    FREQUENCY_PENALTY,
+    PRESENCE_PENALTY,
+    TEMPERATURE,
+    TOP_P,
+    API_DOMAIN,
+)
 
 
 class AIGCBot:
@@ -26,7 +35,17 @@ class AIGCBot:
         if retry_count > 2:
             return Reply(ReplyType.TEXT, "我好像出了点问题，等我修复一下再来找我聊天吧")
         try:
+            headers = {"Content-Type": "application/json", "Accept": "application/json", "Authorization": AIGC_API_KEY}
+            body = {
+                "model": AIGC_MODEL,
+                "messages": [{"role": "user", "content": context}],
+                "top_p": TOP_P,
+                "temperature": TEMPERATURE,
+                "frequency_penalty": FREQUENCY_PENALTY,
+                "presence_penalty": PRESENCE_PENALTY,
+            }
 
+            base_url = API_DOMAIN
             func_url = "/v1/chat/completions"
             res = requests.post(url=urljoin(base_url, func_url), json=body, headers=headers)
 
