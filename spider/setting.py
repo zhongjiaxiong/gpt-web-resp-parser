@@ -23,11 +23,10 @@ assert API_KEY, "[!] API_KEY is not set in .env file"
 
 # config.py
 # PLATFORM OPENAI_MODEL OPENAI_API_KEY AIGC_MODEL AIGC_API_KEY TEMPERATURE TOP_P FREQUENCY_PENALTY PRESENCE_PENALTY
-PLATFORM = env.str("PLATFORM", "openai")
-OPENAI_MODEL = env.str("OPENAI_MODEL", "curie")
+OPENAI_MODEL = env.str("OPENAI_MODEL", "davinci")
 OPENAI_API_KEY = env.str("OPENAI_API_KEY", None)
 assert OPENAI_API_KEY, "[!] OPENAI_API_KEY is not set in.env file"
-AIGC_MODEL = env.str("AIGC_MODEL", "curie")
+AIGC_MODEL = env.str("AIGC_MODEL", "gpt-4-all")
 AIGC_API_KEY = env.str("AIGC_API_KEY", None)
 assert AIGC_API_KEY, "[!] AIGC_API_KEY is not set in .env file"
 TEMPERATURE = env.float("TEMPERATURE", 0.7)
