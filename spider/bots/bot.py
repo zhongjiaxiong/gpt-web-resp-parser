@@ -1,5 +1,5 @@
-from bridge.context import Context
-from bridge.reply import Reply
+from spider.bridge.context import Context
+from spider.bridge.reply import Reply
 
 
 class Bot(object):
