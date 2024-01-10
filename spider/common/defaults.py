@@ -1,13 +1,12 @@
 AUTHOR_PATTERN = [
-            "责编[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "责任编辑[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "作者[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "编辑[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "文[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "原创[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "撰文[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
-            "来源[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：|<]",
-
+    "责编[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "责任编辑[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "作者[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "编辑[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "文[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "原创[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "撰文[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：]",
+    "来源[：|:| |丨|/]\s*([\u4E00-\u9FA5a-zA-Z]{2,20})[^\u4E00-\u9FA5|:|：|<]",
 ]
 
 DATETIME_PATTERN = [
@@ -40,39 +39,35 @@ DATETIME_PATTERN = [
     "(\d{2}[-|/|.]\d{1,2}[-|/|.]\d{1,2})",
     "(\d{4}年\d{1,2}月\d{1,2}日)",
     "(\d{2}年\d{1,2}月\d{1,2}日)",
-    "(\d{1,2}月\d{1,2}日)"
+    "(\d{1,2}月\d{1,2}日)",
 ]
 
-TITLE_HTAG_XPATH = '//h1//text() | //h2//text() | //h3//text() | //h4//text()'
+TITLE_HTAG_XPATH = "//h1//text() | //h2//text() | //h3//text() | //h4//text()"
 
-TITLE_SPLIT_CHAR_PATTERN = '[-_|]'
+TITLE_SPLIT_CHAR_PATTERN = "[-_|]"
 
-USELESS_TAG = ['style', 'script', 'link', 'video', 'iframe', 'source', 'picture', 'header', 'blockquote',
-               'footer']
+USELESS_TAG = ["style", "script", "link", "video", "iframe", "source", "picture", "header", "blockquote", "footer"]
 
 
-TAGS_CAN_BE_REMOVE_IF_EMPTY = ['section', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span']
+TAGS_CAN_BE_REMOVE_IF_EMPTY = ["section", "h1", "h2", "h3", "h4", "h5", "h6", "span"]
 
 USELESS_ATTR = {
-                'share',
-                'contribution',
-                'copyright',
-                'copy-right',
-                'disclaimer',
-                'recommend',
-                'related',
-                'footer',
-                'comment',
-                'social',
-                'submeta',
-                'report-infor'
-                }
+    "share",
+    "contribution",
+    "copyright",
+    "copy-right",
+    "disclaimer",
+    "recommend",
+    "related",
+    "footer",
+    "comment",
+    "social",
+    "submeta",
+    "report-infor",
+}
 
 
-HIGH_WEIGHT_ARRT_KEYWORD = ['content',
-                            'article',
-                            'news_txt',
-                            'post_text']
+HIGH_WEIGHT_ARRT_KEYWORD = ["content", "article", "news_txt", "post_text"]
 
 
 PUBLISH_TIME_META = [  # 部分特别规范的新闻网站，可以直接从 HTML 的 meta 数据中获得发布时间

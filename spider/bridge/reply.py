@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ReplyType(Enum):
     TEXT = 1  # 文本消息
     IMAGE = 2  # 图片消息
@@ -8,8 +9,6 @@ class ReplyType(Enum):
 
 
 class Reply:
-    def __init__(self,type:ReplyType=None,content=None):
-        self.type=type
-        self.content=content
-
-
+    def __init__(self, type: ReplyType = None, content=None):
+        self.type = type
+        self.content = content

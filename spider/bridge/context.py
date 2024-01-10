@@ -7,7 +7,8 @@ class ContextType(Enum):
     FILE = 3  # 文件信息
     VIDEO = 4  # 视频信息
 
+
 class Context:
-    def __init__(self,type:ContextType=None,content=None):
-        self.type=type
-        self.content=content
+    def __init__(self, type: ContextType = None, content=None):
+        self.type = type
+        self.content = content
