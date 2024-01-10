@@ -1,0 +1,6 @@
+{
+  "platform": "aigcbest",
+  "model": "gpt-4-all",
+  "api-key": "YOUR_API_KEY",
+  "prompt": {}
+}
