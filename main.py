@@ -37,7 +37,7 @@ def parse_data(html):
 
 if __name__ == '__main__':
     # url = "https://juejin.cn/"
-    with open('去除注释.html', 'r', encoding='utf-8') as f:
+    with open('test_html/去除注释.html', 'r', encoding='utf-8') as f:
         html = f.read()
     # normal_html = normalize_text(html)
     # element = html2element(normal_html)
