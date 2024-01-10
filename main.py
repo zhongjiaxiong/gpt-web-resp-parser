@@ -4,7 +4,8 @@
 
 import requests
 import parsel
-from utils import html2element, pre_parse, remove_noise_node, config, normalize_text,element2html,del_comment
+
+
 def get_page_content(url):
     response = requests.get(url)
     if response.status_code == 200:
