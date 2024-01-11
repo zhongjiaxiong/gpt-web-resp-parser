@@ -19,7 +19,15 @@ from spider.setting import (
 
 class AIGCBot:
     def __init__(self):
-        pass
+        self.headers = {"Content-Type": "application/json", "Accept": "application/json", "Authorization": AIGC_API_KEY}
+        self.body = {
+                "model": AIGC_MODEL,
+                "messages": [{"role": "user", "content": None}],
+                "top_p": TOP_P,
+                "temperature": TEMPERATURE,
+                "frequency_penalty": FREQUENCY_PENALTY,
+                "presence_penalty": PRESENCE_PENALTY,
+            }
 
     def reply(self, context: Context = None) -> Reply:
         """
@@ -34,27 +42,19 @@ class AIGCBot:
     def _chat(self, context: Context, retry_count=0) -> Reply:
         if retry_count > 2:
             return Reply(ReplyType.TEXT, "我好像出了点问题，等我修复一下再来找我聊天吧")
-        try:
-            headers = {"Content-Type": "application/json", "Accept": "application/json", "Authorization": AIGC_API_KEY}
-            body = {
-                "model": AIGC_MODEL,
-                "messages": [{"role": "user", "content": context}],
-                "top_p": TOP_P,
-                "temperature": TEMPERATURE,
-                "frequency_penalty": FREQUENCY_PENALTY,
-                "presence_penalty": PRESENCE_PENALTY,
-            }
 
+        try:
+            self.body["messages"][0]["content"] = context.content
             base_url = API_DOMAIN
             func_url = "/v1/chat/completions"
-            res = requests.post(url=urljoin(base_url, func_url), json=body, headers=headers)
+            res = requests.post(url=urljoin(base_url, func_url), json=self.body, headers=self.headers)
 
             if res.status_code == 200:
                 response = res.json()
                 content = response["choices"][0]["message"]["content"]
                 total_token = response["usage"]["total_token"]
                 logging.info(f"total_token: {total_token}")
-                return Reply(content, ReplyType.TEXT)
+                return Reply(ReplyType.TEXT, content)
         except Exception as e:
             logging.error(e)
             time.sleep(2)

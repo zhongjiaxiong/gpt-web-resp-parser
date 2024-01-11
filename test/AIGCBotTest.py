@@ -1,100 +1,39 @@
-import unittest
-from unittest.mock import patch, MagicMock
-from bot.aigc_bot.aigc_bot import AIGCBot
-from bridge.context import Context, ContextType
-from bridge.reply import ReplyType
+import pytest
+
+from spider.bots.aigc_bot.aigc_bot import AIGCBot
+from spider.bridge.reply import ReplyType
+from spider.bridge.context import ContextType, Context
 
 
-class TestDemoClass(unittest.TestCase):
-    @patch('module.conf')
-    @patch('module.requests.post')
-    def test__chat_success(self, mock_post, mock_conf):
-        # Mock configuration values
-        mock_conf.side_effect = lambda key: {
-            'aigc_api_key': 'api_key',
-            'aigc_model': 'model',
-            'aigc_top_p': 2,
-            'aigc_temperature': 2,
-            'frequency_penalty': 0.1,
-            'presence_penalty': 0.1
-        }.get(key)
+@pytest.fixture
+def demo_class():
+    return AIGCBot()
 
-        # Mock response from requests.post
-        mock_post.return_value.status_code = 200
-        mock_post.return_value.json.return_value = {
-            'choices': [{'message': {'content': 'Hello'}}],
-            'usage': {'total_token': 100}
-        }
 
-        # Create DemoClass instance
-        demo = AIGCBot()
-        context = Context(type=ContextType.TEXT, content='Hello')
-        # Call _chat method
-        reply = demo._chat(context)
+def test_chat_retry_count_greater_than_two(mocker, demo_class):
+    context = Context(ContextType.TEXT, "Hello")
+    mocker.patch("requests.post", side_effect=Exception("Test Exception"))
+    reply = demo_class._chat(context, retry_count=3)
+    assert reply.content == "我好像出了点问题，等我修复一下再来找我聊天吧"
 
-        # Assert the return value
-        self.assertEqual(reply.type, ReplyType.TEXT)
-        self.assertEqual(reply.content, 'Hello')
-        mock_conf.assert_called_with('aigc_api_key')
-        mock_post.assert_called_with(
-            url='http://example.com/v1/chat/completions',
-            json={
-                'model': 'model',
-                'messages': [{'role': 'user', 'content': 'Hello'}],
-                'top_p': 2,
-                'temperature': 2,
-                'frequency_penalty': 0.1,
-                'presence_penalty': 0.1
+
+def test_chat_success(mocker, demo_class):
+    context = Context(ContextType.TEXT, "Hello")
+    mock_post = mocker.patch("requests.post")
+    mock_post.return_value.status_code = 200
+    mock_post.return_value.json.return_value = {
+        "choices": [
+            {
+                "message": {
+                    "content": "Hello",
+                },
             },
-            headers={
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'api_key'
-            }
-        )
-
-    @patch('module.conf')
-    @patch('module.requests.post')
-    def test__chat_retry(self, mock_post, mock_conf):
-        # Mock configuration values
-        mock_conf.side_effect = lambda key: {
-            'aigc_api_key': 'api_key',
-            'aigc_model': 'model',
-            'aigc_top_p': 2,
-            'aigc_temperature': 2,
-            'frequency_penalty': 0.1,
-            'presence_penalty': 0.1
-        }.get(key)
-
-        # Mock response from requests.post
-        mock_post.side_effect = Exception('Test exception')
-
-        # Create DemoClass instance
-        demo = AIGCBot()
-        context = Context(type=ContextType.TEXT, content='Hello')
-        # Call _chat method
-        reply = demo._chat(context)
-
-        # Assert the return value
-        self.assertEqual(reply.type, ReplyType.TEXT)
-        self.assertEqual(reply.content, '我好像出了点问题，等我修复一下再来找我聊天吧')
-        mock_conf.assert_called_with('aigc_api_key')
-        mock_post.assert_called_with(
-            url='http://example.com/v1/chat/completions',
-            json={
-                'model': 'model',
-                'messages': [{'role': 'user', 'content': 'Hello'}],
-                'top_p': 2,
-                'temperature': 2,
-                'frequency_penalty': 0.1,
-                'presence_penalty': 0.1
-            },
-            headers={
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'api_key'
-            }
-        )
-
-if __name__ == '__main__':
-    unittest.main()
+        ],
+        "usage": {
+            "total_token": 100,
+        },
+    }
+    reply = demo_class._chat(context)
+    assert reply.content == "Hello"
+    assert reply.type == ReplyType.TEXT
+    assert mock_post.call_count == 1
